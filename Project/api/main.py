@@ -22,9 +22,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# MODEL = tf.keras.models.load_model("../saved_models/1")
+MODEL = tf.keras.models.load_model("E:/6th Semester/ML Lab/Project/Model_Potato_Grape_2")
 
-CLASS_NAMES = ["Early Blight", "Late Blight", "Healthy"]
+CLASS_NAMES = ['Grape_Black_rot','Grape_Esca','Grape_Leaf_blight','Grape_healthy','Potato_Early_blight','Potato_Late_blight','Potato_healthy']
+# CLASS_NAMES = ["","Potato_Early_blight","","","","",""]
+#CLASS_NAMES = ["Strawberry scortch","Strawberry healthy"]
 
 
 @app.get("/ping")
@@ -41,12 +43,40 @@ def read_file_as_image(data) -> np.ndarray:
 async def predict(
     file: UploadFile = File(...)
 ):
-    image = read_file_as_image(await file.read())
-    img_batch = np.expand_dims(image, 0)
+    image1 = read_file_as_image(await file.read())
+    # image1.resize(224,224,3)
+    
+    print("KKK")
+    print(type(image1))
+    print(image1.shape)
+    image3=Image.fromarray(image1)
+    # image3.thumbnail((224,224))
+    image = image3.resize((224,224))
+    print("PPP")
+    print(type(image))
+    # image.show()
 
-    predictions = MODEL.predict(img_batch)
+    # img_batch = np.expand_dims(image, 0)
+    # print(type(img_batch))
+
+    # preprocessed_image=tf.keras.applications.mobilenet.preprocess_input(image)
+    # predictions = MODEL.predict(preprocessed_image)
+
+
+    # image = tf.keras.preprocessing.image.load_img('E:/6th Semester/ML Lab/Project/potato-blight.jpg', target_size=(224, 224))
+    # print("ZZZ")
+    # print(type(image))
+    # image.show()
+
+    input_arr = tf.keras.preprocessing.image.img_to_array(image)
+    input_arr = np.array([input_arr])
+
+    preprocessed_image=tf.keras.applications.mobilenet.preprocess_input(input_arr)
+    predictions = MODEL.predict(preprocessed_image)
 
     predicted_class = CLASS_NAMES[np.argmax(predictions[0])]
+    print("MMM")
+    print(predicted_class)
     confidence = np.max(predictions[0])
     return {
         'class': predicted_class,
