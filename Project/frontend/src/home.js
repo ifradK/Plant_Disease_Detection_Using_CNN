@@ -141,6 +141,11 @@ const useStyles = makeStyles((theme) => ({
   },
   loader: {
     color: '#be6a77 !important',
+  },
+  caption: {
+    color: 'white',
+    fontWeight: 'bolder',
+    fontSize: '30px'
   }
   
 }));
@@ -213,8 +218,9 @@ export const ImageUpload = () => {
     <React.Fragment>
       <AppBar position="static" className={classes.appbar}>
         <Toolbar>
-          <Typography className={classes.title} variant="h6" noWrap>
-            Potato-Grape Disease Classification
+          {/* <Typography className={classes.title} variant="h6" noWrap> */}
+          <Typography className={classes.caption} variant="h6" noWrap>
+            Plant Care
           </Typography>
           <div className={classes.grow} />
         </Toolbar>
