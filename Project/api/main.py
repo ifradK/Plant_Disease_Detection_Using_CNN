@@ -22,9 +22,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-MODEL = tf.keras.models.load_model("E:/6th Semester/ML Lab/Project/Model_Potato_Grape_2")
+MODEL = tf.keras.models.load_model("E:/6th Semester/ML Lab/Project/Model_keras_plantvillage_full")
 
-CLASS_NAMES = ['Grape_Black_rot','Grape_Esca','Grape_Leaf_blight','Grape_healthy','Potato_Early_blight','Potato_Late_blight','Potato_healthy']
+CLASS_NAMES = ['Apple scab','Apple Black rot','Apple rust','Apple healthy','Blueberry healthy','Cherry Powdery mildew','Cherry healthy','Corn Cercospora Gray leaf spot','Corn Common rust','Corn Northern Leaf Blight','Corn healthy','Grape Black rot','Grape Esca','Grape Leaf blight','Grape healthy','Orange Haunglongbing','Peach Bacterial spot','Peach healthy','Pepper Bacterial spot','Pepper healthy','Potato Early blight','Potato Late blight','Potato healthy','Raspberry healthy','Soybean healthy','Squash Powdery mildew','Strawberry Leaf scorch','Strawberry healthy','Tomato Bacterial spot','Tomato Early blight','Tomato Late blight','Tomato Leaf Mold','Tomato Septoria leaf spot','Tomato Spider mites','Tomato Target Spot','Tomato Yellow Leaf Curl Virus','Tomato mosaic virus','Tomato healthy']
+#CLASS_NAMES = ['Grape_Black_rot','Grape_Esca','Grape_Leaf_blight','Grape_healthy','Potato_Early_blight','Potato_Late_blight','Potato_healthy']
 # CLASS_NAMES = ["","Potato_Early_blight","","","","",""]
 #CLASS_NAMES = ["Strawberry scortch","Strawberry healthy"]
 
@@ -75,8 +76,6 @@ async def predict(
     predictions = MODEL.predict(preprocessed_image)
 
     predicted_class = CLASS_NAMES[np.argmax(predictions[0])]
-    print("MMM")
-    print(predicted_class)
     confidence = np.max(predictions[0])
     return {
         'class': predicted_class,
@@ -85,3 +84,6 @@ async def predict(
 
 if __name__ == "__main__":
     uvicorn.run(app, host='localhost', port=8000)
+
+
+
